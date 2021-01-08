@@ -15,7 +15,13 @@ WIN_COMBINATIONS = [
   [0,4,8],
   [6,4,2]
 ]
-
+def wontwo? board
+  !!WIN_COMBINATIONS.detect do |win_combination|
+    board[win_combination[1]] == board[win_combination[2]] &&
+    board[win_combination[0]] == board[win_combination[1]] &&
+    board[win_combination[0]] != " "
+  end
+end
 def won? board
   WIN_COMBINATIONS.each do |win_combination|
     # win_combination is a 3 element array of indexes that compose a win, [0,1,2]
@@ -49,7 +55,8 @@ def wonboolean? board
     position_2 = board[win_index_2] # load the value of the board at win_index_2
     position_3 = board[win_index_3] # load the value of the board at win_index_3
 
-    if (position_1 == "X" && position_2 == "X" && position_3 == "X") or (position_1 == "O" && position_2 == "O" && position_3 == "O")
+    if (position_1 == "X" && position_2 == "X" && position_3 == "X") or
+       (position_1 == "O" && position_2 == "O" && position_3 == "O")
       return true # return the win_combination indexes that won.
     else
       # return false
@@ -73,12 +80,13 @@ def full? board
   end
 
 def draw? board
-  if full(board) && !wonboolean?(board)
+  if full?(board) && !wonboolean?(board)
     return true
   else
     return false
   end
 end
+draw? board
 
 def over? board
     if wonboolean? board
